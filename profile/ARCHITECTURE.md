@@ -20,6 +20,28 @@ Modern SaaS vendors need a consolidated revenue stack: ingest multi-provider fin
 
 Non-goals: pricing/packaging, UX copy, commercial SLAs (covered elsewhere).
 
+## 1a) Execution Focus & Timeline (from README.md)
+
+- **Flagship bundle first:** Ship Oppulence (Polar fork) + Canvas dunning as one “Stripe cash OS” SKU. Deliver the sell → reconcile → recover loop end-to-end, price at $300–$800/mo, and land 5–10 beta customers before building anything else.
+- **Platform powers products:** Harden Stripe Sync Engine + Unified API for first-party apps (SLAs, metering, observability, docs). Monetize externally only after the merchant bundle shows traction.
+- **Brutal scope discipline:** Pause Eververse, Potion, Ultracite, storage forks, etc. unless they unblock the cash OS. Every extra repo is cognitive burn—ship only what accelerates invoice-to-cash revenue.
+- **Execution sequence:**
+  1. Lock data reliability in the Sync Engine/Unified API stack so Oppulence + Canvas trust every event.
+  2. Finish Paperless backend essentials (invoice CRUD, PDFs, Stripe/Plaid payments, reconciliation) that feed Canvas.
+  3. Build a single operator UI inside Oppulence Workspace for issuing invoices, tracking status, and escalating recoveries.
+  4. Run founder-led sales loops with the Stripe merchant bundle, iterating on pricing and ROI proof points.
+  5. After ARR momentum, offer the Unified API + developer platform to external builders with clear usage-based pricing.
+- **Support assets, not distractions:** Use the lead-scraper to auto-populate the internal prospect list and power lightweight outbound; keep focus on “get Stripe merchants to pay for faster reconciliation and recovery.”
+
+### Execution Timeline (Now → 2026)
+
+| Phase | Focus | Notes |
+| --- | --- | --- |
+| **2024–2025** | Ship and bulletproof the Oppulence (Polar fork) + Canvas bundle | Deliver sell → reconcile → recover loop for Stripe merchants, land 5–10 paying pilots, instrument ROI; every other initiative serves this push (`oppulence/README.md`, `oppulence-canvas/README.md`). |
+| **In Parallel** | Harden the developer platform (Stripe Sync Engine + Unified API) for internal use | Add SLAs, metering, observability, and docs so Oppulence/Canvas/Solomon AI consume a trustworthy data plane before exposing it to external builders (`oppulence-sync-engine/README.md`, `oppulence-unified-api/README.md`). |
+| **Continuous** | Dogfood the lead-scraper for outbound | Use the existing lead-scraper service to auto-populate CRM/workspace with target SMBs and run founder-led outreach; only productize externally once it clearly fuels adoption (`oppulence-paperless-backend/services/lead-scraper-service/README.md`). |
+| **2026** | Platform commercialization & workspace upsell | When the merchant bundle shows ARR momentum and the platform is stable, offer the Unified API + developer tooling to external builders and layer Solomon AI workspace features as the upsell. |
+
 ## 2) System Context (C4 Level 1)
 
 ```mermaid
@@ -168,7 +190,7 @@ sequenceDiagram
   Worker->>PG: Backfill/retry with exponential backoff
   Worker->>CH: Dual-write analytics projection
   Worker->>DevAPI: Internal POST /v1/webhooks/stripe (tenant-scoped)
-  DevAPI->>Redis: Invalidate caches; refresh materialized views
+  DevAPI->>Redis: Invalidate caches and refresh materialized views
 ```
 
 ## 6) API Surface (selected, workspace-scoped)
